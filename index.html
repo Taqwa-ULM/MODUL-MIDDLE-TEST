@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathLab 11 - Rumah Rumus & Simulasi Interaktif Matematika Tingkat Lanjut Kelas 11</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- KaTeX for Math Equations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #090d16;
+            color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-amber {
+            background: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 9999px;
+        }
+
+        .katex-display {
+            margin: 0.5em 0 !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 4px 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-square-root-variable text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-2">
+                        MATH<span class="text-cyan-400">LAB</span> 11
+                        <span class="text-[10px] uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-semibold">Tingkat Lanjut</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400 font-medium">Rumah Rumus & Visualisasi Interaktif Kelas 11</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="showView('home')" id="nav-btn-home" class="nav-link px-4 py-2 rounded-xl text-xs font-bold transition-all text-cyan-400 bg-cyan-500/10 border border-cyan-500/20">
+                    <i class="fa-solid fa-house mr-1.5"></i> Homepage
+                </button>
+                <button onclick="showView('bab1')" id="nav-btn-bab1" class="nav-link px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-infinity mr-1.5 text-cyan-400"></i> Bab I: Bilangan Kompleks
+                </button>
+                <button onclick="showView('bab2')" id="nav-btn-bab2" class="nav-link px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-chart-area mr-1.5 text-purple-400"></i> Bab II: Polinomial
+                </button>
+            </nav>
+
+            <!-- Quiz Link CTA -->
+            <a href="https://math-intrepid-master-hub.base44.app/" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow-lg shadow-amber-500/20 hover:scale-105 transition-all duration-200">
+                <i class="fa-solid fa-gamepad mr-2 text-sm"></i> Buka Kuis Simulasi
+                <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-[10px]"></i>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-slate-800 space-y-2 bg-slate-950/95">
+            <button onclick="showView('home'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold text-slate-200 hover:bg-slate-800 flex items-center">
+                <i class="fa-solid fa-house w-6 text-cyan-400"></i> Homepage
+            </button>
+            <button onclick="showView('bab1'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold text-slate-200 hover:bg-slate-800 flex items-center">
+                <i class="fa-solid fa-infinity w-6 text-cyan-400"></i> Bab I: Bilangan Kompleks
+            </button>
+            <button onclick="showView('bab2'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold text-slate-200 hover:bg-slate-800 flex items-center">
+                <i class="fa-solid fa-chart-area w-6 text-purple-400"></i> Bab II: Polinomial
+            </button>
+            <a href="https://math-intrepid-master-hub.base44.app/" target="_blank" class="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-bold bg-amber-500 text-slate-950">
+                <i class="fa-solid fa-gamepad mr-2"></i> Kunjungi Simulasi Kuis Online
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- ==================== VIEW 1: HOMEPAGE ==================== -->
+        <section id="view-home" class="space-y-10 transition-all duration-300">
+            
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden p-8 sm:p-12 glass-card border border-cyan-500/20 shadow-2xl">
+                <!-- Background Glowing Orbs -->
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-3xl space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
+                        <i class="fa-solid fa-atom text-amber-400"></i>
+                        Matematika Tingkat Lanjut SMA Kelas 11
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                        Eksplorasi <span class="gradient-text-cyan">Bilangan Kompleks</span> & <span class="gradient-text-amber">Polinomial</span>
+                    </h1>
+                    
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+                        Pelajari konsep aljabar tingkat lanjut dengan simulator visual interaktif! Visualisasikan bidang Argand, konjugat, modulus, kurva end-behavior polinomial, hingga skema pembagian Horner secara otomatis.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="showView('bab1')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 font-extrabold text-sm text-white shadow-lg shadow-cyan-500/25 hover:scale-105 transition-transform flex items-center">
+                            <i class="fa-solid fa-play mr-2"></i> Mulai Bab I: Bilangan Kompleks
+                        </button>
+                        <button onclick="showView('bab2')" class="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 border border-slate-700 font-extrabold text-sm text-slate-200 transition-all flex items-center">
+                            <i class="fa-solid fa-chart-area mr-2 text-purple-400"></i> Bab II: Polinomial
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Hub Card Section -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-slate-900 to-indigo-950 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+                <div class="space-y-2 text-center md:text-left z-10">
+                    <div class="inline-block px-3 py-1 rounded-md bg-amber-500/20 text-amber-300 font-extrabold text-xs tracking-wider uppercase">
+                        <i class="fa-solid fa-trophy mr-1"></i> Simulasi Kuis Interaktif
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Uji Pemahaman Materi Persiapan UTS/PTS</h2>
+                    <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+                        Akses platform kuis interaktif latihan soal Bilangan Kompleks dan Polinomial lengkap dengan pembahasan langkah demi langkah.
+                    </p>
+                </div>
+                <div class="z-10 w-full md:w-auto">
+                    <a href="https://math-intrepid-master-hub.base44.app/" target="_blank" rel="noopener noreferrer" class="block text-center px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/20 hover:scale-105 transition-all">
+                        <i class="fa-solid fa-external-link mr-2"></i> BUKA SOAL KUIS ONLINE
+                    </a>
+                </div>
+            </div>
+
+            <!-- Chapter Navigation Grid -->
+            <div>
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                    <i class="fa-solid fa-layer-group text-cyan-400 mr-2.5"></i> Pilih Modul Interaktif
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Card BAB I -->
+                    <div onclick="showView('bab1')" class="glass-card p-6 rounded-3xl border border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 cursor-pointer group hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-infinity text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300">BAB I</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
+                            Bilangan Kompleks
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            Pahami bentuk baku $z = a + bi$, bidang Argand visual, kalkulator operasi ($+,-,\times,\div$), konjugat $\overline{z}$, modulus $|z|$, dan argumen utama $\theta$.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-[11px] text-slate-300 font-semibold">
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">Bidang Argand</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">Kalkulator Operasi</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"><i class="fa-solid fa-compass mr-1"></i> Argumen & Polar</span>
+                        </div>
+                    </div>
+
+                    <!-- Card BAB II -->
+                    <div onclick="showView('bab2')" class="glass-card p-6 rounded-3xl border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 cursor-pointer group hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-chart-area text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300">BAB II</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white group-hover:text-purple-300 transition-colors mb-2">
+                            Polinomial (Suku Banyak)
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            Simulasikan perilaku ujung (*end behavior*) grafik, derajat perkalian polinomial, kalkulator skema **Horner**, serta Teorema Sisa & Faktor.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-[11px] text-slate-300 font-semibold">
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">End Behavior Plotter</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700">Skema Horner</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30"><i class="fa-solid fa-calculator mr-1"></i> Teorema Sisa</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Features Highlights Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                <div class="glass-card p-4 rounded-2xl border border-slate-800 flex items-center space-x-3">
+                    <div class="p-3 rounded-xl bg-cyan-500/20 text-cyan-400">
+                        <i class="fa-solid fa-compass text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Bidang Argand Realtime</div>
+                        <div class="text-[11px] text-slate-400">Plot vektor sumbu Real vs Imajiner</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl border border-slate-800 flex items-center space-x-3">
+                    <div class="p-3 rounded-xl bg-purple-500/20 text-purple-400">
+                        <i class="fa-solid fa-sliders text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">End Behavior Simulator</div>
+                        <div class="text-[11px] text-slate-400">Eksplorasi perilaku ujung grafik $P(x)$</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 rounded-2xl border border-slate-800 flex items-center space-x-3">
+                    <div class="p-3 rounded-xl bg-amber-500/20 text-amber-400">
+                        <i class="fa-solid fa-table-cells-large text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Skema Horner Otomatis</div>
+                        <div class="text-[11px] text-slate-400">Hitung $H(x)$ dan Sisa $S(x)$ instan</div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== VIEW 2: BAB I (BILANGAN KOMPLEKS) ==================== -->
+        <section id="view-bab1" class="hidden space-y-8 transition-all duration-300">
+            
+            <!-- Header Bab I -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold mb-2">
+                        <i class="fa-solid fa-infinity"></i> Matematika Tingkat Lanjut Kelas 11
+                    </div>
+                    <h2 class="text-3xl font-black text-white">BAB I: Bilangan Kompleks</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm">Eksplorasi bentuk baku $a+bi$, bidang Argand, konjugat, modulus, argumen utama, dan kalkulator operasi.</p>
+                </div>
+
+                <!-- Inner Navigation Tabs -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchBab1Tab('argand')" id="tab-b1-argand" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-cyan-500 text-slate-950 shadow-md">
+                        <i class="fa-solid fa-compass mr-1"></i> Konsep & Bidang Argand
+                    </button>
+                    <button onclick="switchBab1Tab('oper')" id="tab-b1-oper" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+                        <i class="fa-solid fa-calculator mr-1"></i> Kalkulator Operasi Aljabar
+                    </button>
+                    <button onclick="switchBab1Tab('polar')" id="tab-b1-polar" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+                        <i class="fa-solid fa-angle-right mr-1"></i> Argumen & Bentuk Polar
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUB-TAB 1: KONSEP & BIDANG ARGAND -->
+            <div id="subtab-argand" class="space-y-6">
+                
+                <!-- Definition Card -->
+                <div class="glass-card p-6 rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-slate-900 to-cyan-950/40">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                        <div class="lg:col-span-2 space-y-3">
+                            <h3 class="text-xl font-extrabold text-cyan-400 flex items-center">
+                                <i class="fa-solid fa-lightbulb mr-2"></i> Bentuk Baku Bilangan Kompleks
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Bilangan kompleks dinyatakan sebagai <span class="text-cyan-300 font-bold">$z = a + bi$</span>, dengan <span class="text-emerald-400 font-bold">$a = \text{Re}(z)$</span> (Bagian Real) dan <span class="text-amber-400 font-bold">$b = \text{Im}(z)$</span> (Bagian Imajiner), di mana $i^2 = -1$.
+                            </p>
+                            <div class="bg-slate-950/70 p-4 rounded-2xl border border-cyan-500/20 font-mono text-center text-cyan-200 text-sm space-y-2">
+                                <div>$$\text{Konjugat: } \overline{z} = a - bi \quad \Big| \quad \text{Modulus: } |z| = \sqrt{a^2 + b^2}$$</div>
+                                <div class="text-xs text-slate-400">Sifat Penting: $z \cdot \overline{z} = |z|^2 = a^2 + b^2$</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                            <div class="font-bold text-slate-200 border-b border-slate-800 pb-1.5"><i class="fa-solid fa-square-root-variable text-cyan-400 mr-1"></i> Komponen Utama:</div>
+                            <ul class="space-y-1.5 text-slate-400">
+                                <li class="flex items-center justify-between"><span>Sumbu Horizontal:</span> <strong class="text-emerald-400">Real (Re)</strong></li>
+                                <li class="flex items-center justify-between"><span>Sumbu Vertikal:</span> <strong class="text-amber-400">Imajiner (Im)</strong></li>
+                                <li class="flex items-center justify-between"><span>Panjang Vektor:</span> <strong class="text-cyan-400">Modulus $|z|$</strong></li>
+                                <li class="flex items-center justify-between"><span>Bayangan Sumbu Re:</span> <strong class="text-purple-400">Konjugat $\overline{z}$</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Argand Plane Visualizer -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Controls Panel -->
+                    <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-slate-800 space-y-5">
+                        <h4 class="font-bold text-white text-sm flex items-center justify-between">
+                            <span><i class="fa-solid fa-sliders text-cyan-400 mr-2"></i> Atur Nilai Bilangan Kompleks $z$</span>
+                        </h4>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-3">
+                                <div>
+                                    <div class="flex justify-between font-semibold mb-1">
+                                        <span class="text-emerald-400">Bagian Real $\text{Re}(z) = a$</span>
+                                        <span id="argand-val-a" class="text-white font-bold">3</span>
+                                    </div>
+                                    <input type="range" id="slider-a" min="-8" max="8" value="3" step="1" oninput="updateArgandSim()" class="w-full accent-emerald-500 cursor-pointer">
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between font-semibold mb-1">
+                                        <span class="text-amber-400">Bagian Imajiner $\text{Im}(z) = b$</span>
+                                        <span id="argand-val-b" class="text-white font-bold">4</span>
+                                    </div>
+                                    <input type="range" id="slider-b" min="-8" max="8" value="4" step="1" oninput="updateArgandSim()" class="w-full accent-amber-500 cursor-pointer">
+                                </div>
+                            </div>
+
+                            <!-- Live Derived Results -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-slate-900 p-3.5 rounded-2xl border border-cyan-500/20 text-center space-y-1">
+                                    <div class="text-[10px] uppercase font-bold text-cyan-400">Konjugat ($\overline{z}$)</div>
+                                    <div id="argand-res-conj" class="text-sm font-black font-mono text-white">3 - 4i</div>
+                                </div>
+
+                                <div class="bg-slate-900 p-3.5 rounded-2xl border border-purple-500/20 text-center space-y-1">
+                                    <div class="text-[10px] uppercase font-bold text-purple-400">Modulus ($|z|$)</div>
+                                    <div id="argand-res-mod" class="text-sm font-black font-mono text-white">5.00</div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-center space-y-1">
+                                <div class="text-[10px] uppercase font-bold text-slate-400">Perkalian $z \cdot \overline{z} = |z|^2$</div>
+                                <div id="argand-res-z-zbar" class="text-lg font-black font-mono text-emerald-400">3² + 4² = 25</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Interactive Argand Plane -->
+                    <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-white text-sm flex items-center">
+                                <i class="fa-solid fa-chart-line text-cyan-400 mr-2"></i> Plotting Bidang Argand (Kompleks Plane)
+                            </h4>
+                            <span class="text-[10px] px-2 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono">Real vs Im</span>
+                        </div>
+
+                        <div class="relative w-full h-64 sm:h-80 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden p-2">
+                            <canvas id="canvas-argand" class="w-full h-full block"></canvas>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-around gap-2 text-[11px] text-slate-400 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> Vektor $z$</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span> Konjugat $\overline{z}$</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Modulus $|z|$</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SUB-TAB 2: KALKULATOR OPERASI ALJABAR KOMPLEKS -->
+            <div id="subtab-oper" class="hidden space-y-6">
+                
+                <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="text-xl font-extrabold text-white flex items-center">
+                        <i class="fa-solid fa-calculator text-cyan-400 mr-2"></i> Kalkulator Operasi Dua Bilangan Kompleks
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Masukkan dua bilangan kompleks $z_1 = a + bi$ dan $z_2 = c + di$ untuk melihat hasil penjumlahan, pengurangan, perkalian, dan pembagian secara otomatis.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
+                        <!-- Input z1 -->
+                        <div class="space-y-2 p-3 bg-slate-900/80 rounded-xl border border-cyan-500/30">
+                            <div class="font-bold text-cyan-400">Bilangan Kompleks $z_1$:</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Real ($a$)</label>
+                                    <input type="number" id="oper-a" value="4" oninput="calculateComplexOps()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Imajiner ($b$)</label>
+                                    <input type="number" id="oper-b" value="3" oninput="calculateComplexOps()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input z2 -->
+                        <div class="space-y-2 p-3 bg-slate-900/80 rounded-xl border border-purple-500/30">
+                            <div class="font-bold text-purple-400">Bilangan Kompleks $z_2$:</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Real ($c$)</label>
+                                    <input type="number" id="oper-c" value="2" oninput="calculateComplexOps()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Imajiner ($d$)</label>
+                                    <input type="number" id="oper-d" value="-5" oninput="calculateComplexOps()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations Results Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Penjumlahan & Pengurangan -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h4 class="font-bold text-emerald-400 text-sm flex items-center">
+                            <i class="fa-solid fa-plus-minus mr-2"></i> Penjumlahan & Pengurangan
+                        </h4>
+                        
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Penjumlahan $z_1 + z_2$</div>
+                                <div id="res-add" class="text-lg font-mono font-black text-white">6 - 2i</div>
+                                <div id="step-add" class="text-[11px] text-slate-400 font-mono">(4+2) + (3 - 5)i</div>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Pengurangan $z_1 - z_2$</div>
+                                <div id="res-sub" class="text-lg font-mono font-black text-white">2 + 8i</div>
+                                <div id="step-sub" class="text-[11px] text-slate-400 font-mono">(4-2) + (3 - (-5))i</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perkalian & Pembagian -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h4 class="font-bold text-amber-400 text-sm flex items-center">
+                            <i class="fa-solid fa-xmark-slash mr-2"></i> Perkalian & Pembagian
+                        </h4>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Perkalian $z_1 \cdot z_2$</div>
+                                <div id="res-mul" class="text-lg font-mono font-black text-amber-300">23 - 14i</div>
+                                <div id="step-mul" class="text-[11px] text-slate-400 font-mono">(ac - bd) + (ad + bc)i</div>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Pembagian $\frac{z_1}{z_2}$ (Kalikan Konjugat)</div>
+                                <div id="res-div" class="text-lg font-mono font-black text-cyan-300">-0.24 + 0.90i</div>
+                                <div id="step-div" class="text-[11px] text-slate-400 font-mono">Rasionalisasi penyebut dengan c - di</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SUB-TAB 3: ARGUMEN UTAMA & BENTUK POLAR -->
+            <div id="subtab-polar" class="space-y-6 hidden">
+                <div class="glass-card p-6 rounded-3xl border border-purple-500/30 bg-gradient-to-br from-slate-900 to-purple-950/40 space-y-3">
+                    <h3 class="text-xl font-extrabold text-purple-300 flex items-center">
+                        <i class="fa-solid fa-compass mr-2"></i> Argumen Utama ($\theta$) & Bentuk Polar
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Bentuk Polar bilangan kompleks dinyatakan sebagai <span class="text-purple-300 font-bold">$z = r(\cos \theta + i \sin \theta) = r \text{ cis } \theta$</span> di mana $r = |z|$ dan $\theta = \operatorname{Arg}(z)$ tergantung letak Kuadran ($I, II, III, IV$).
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h4 class="font-bold text-white text-sm">Detektor Kuadran & Argumen</h4>
+                        
+                        <div class="space-y-3 text-xs">
+                            <div class="grid grid-cols-2 gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Nilai x (Real)</label>
+                                    <input type="number" id="polar-x" value="-1.732" step="0.1" oninput="updatePolarSim()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-[10px]">Nilai y (Imajiner)</label>
+                                    <input type="number" id="polar-y" value="-1" step="0.1" oninput="updatePolarSim()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-slate-950 border border-purple-500/30 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Posisi Kuadran</span>
+                                    <span id="polar-quadrant-badge" class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold text-[11px]">Kuadran III</span>
+                                </div>
+                                <div class="text-xs font-mono text-slate-300">
+                                    Modulus $r = \sqrt{x^2+y^2} =$ <strong id="polar-res-r" class="text-cyan-400">2.00</strong>
+                                </div>
+                                <div class="text-xs font-mono text-slate-300">
+                                    Sudut Argumen $\theta =$ <strong id="polar-res-theta" class="text-amber-400">210°</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-slate-800 text-center space-y-3">
+                        <div class="text-xs font-bold text-slate-300">Representasi Bentuk Polar & Eksponensial Euler</div>
+                        <div id="polar-formula-box" class="p-4 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-cyan-300 text-sm sm:text-base">
+                            $$z = 2 \left(\cos 210^\circ + i \sin 210^\circ\right)$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== VIEW 3: BAB II (POLINOMIAL) ==================== -->
+        <section id="view-bab2" class="hidden space-y-8 transition-all duration-300">
+            
+            <!-- Header Bab II -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold mb-2">
+                        <i class="fa-solid fa-chart-area"></i> Matematika Tingkat Lanjut Kelas 11
+                    </div>
+                    <h2 class="text-3xl font-black text-white">BAB II: Polinomial (Suku Banyak)</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm">Eksplorasi derajat, perilaku ujung grafik (*End Behavior*), operasi perkalian, serta pembagian Skema **Horner**.</p>
+                </div>
+
+                <!-- Inner Navigation Tabs -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchBab2Tab('endbehavior')" id="tab-b2-endbehavior" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-purple-600 text-white shadow-md">
+                        <i class="fa-solid fa-chart-line mr-1"></i> End Behavior Grafik
+                    </button>
+                    <button onclick="switchBab2Tab('horner')" id="tab-b2-horner" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+                        <i class="fa-solid fa-table-cells-large mr-1"></i> Skema Horner & Pembagian
+                    </button>
+                    <button onclick="switchBab2Tab('teorema')" id="tab-b2-teorema" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700">
+                        <i class="fa-solid fa-square-root-variable mr-1"></i> Teorema Sisa & Faktor
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUB-TAB 1: END BEHAVIOR GRAFIK POLINOMIAL -->
+            <div id="subtab-endbehavior" class="space-y-6">
+                
+                <div class="glass-card p-6 rounded-3xl border border-purple-500/30 bg-gradient-to-br from-slate-900 to-purple-950/40">
+                    <h3 class="text-xl font-extrabold text-purple-300 flex items-center mb-2">
+                        <i class="fa-solid fa-sliders mr-2"></i> Perilaku Ujung Grafik (*End Behavior*) Polinomial
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Perilaku ujung grafik $P(x) = a_n x^n + \dots + a_0$ hanya ditentukan oleh **Derajat ($n$)** (genap/ganjil) dan **Tanda Koefisien Utama ($a_n$)** (positif/negatif).
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Controls -->
+                    <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-slate-800 space-y-5">
+                        <h4 class="font-bold text-white text-sm">
+                            <i class="fa-solid fa-gear text-purple-400 mr-2"></i> Simulator Polinomial
+                        </h4>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                                <div>
+                                    <label class="block text-slate-400 mb-1">Derajat Polinomial ($n$)</label>
+                                    <select id="poly-degree" onchange="updateEndBehaviorSim()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold outline-none focus:border-purple-500">
+                                        <option value="6">Genap (n = 6, misal: -x⁶ ...)</option>
+                                        <option value="4">Genap (n = 4, misal: x⁴ ...)</option>
+                                        <option value="3" selected>Ganjil (n = 3, misal: 8x³ ...)</option>
+                                        <option value="5">Ganjil (n = 5, misal: -x⁵ ...)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-400 mb-1">Tanda Koefisien Utama ($a_n$)</label>
+                                    <select id="poly-sign" onchange="updateEndBehaviorSim()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold outline-none focus:border-purple-500">
+                                        <option value="pos">Positif (aₙ > 0)</option>
+                                        <option value="neg" selected>Negatif (aₙ < 0)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Description Box -->
+                            <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border border-purple-500/30 text-center space-y-2">
+                                <div class="text-[10px] uppercase font-bold text-purple-300">Arah Ujung Grafik</div>
+                                <div id="poly-direction-text" class="text-sm font-bold text-white">
+                                    Kiri Bawah ($\swarrow$) dan Kanan Bawah ($\searrow$)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Interactive Graph -->
+                    <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-white text-sm">
+                                <i class="fa-solid fa-chart-line text-purple-400 mr-2"></i> Plotting Kurva Sketsa Polinomial
+                            </h4>
+                            <span id="poly-badge" class="text-[10px] px-2 py-1 rounded bg-purple-500/20 text-purple-300 font-mono">Ganjil, Negative</span>
+                        </div>
+
+                        <div class="relative w-full h-64 sm:h-80 bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden p-2">
+                            <canvas id="canvas-poly" class="w-full h-full block"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SUB-TAB 2: SKEMA HORNER & PEMBAGIAN POLINOMIAL -->
+            <div id="subtab-horner" class="hidden space-y-6">
+                
+                <div class="glass-card p-6 rounded-3xl border border-purple-500/30 bg-gradient-to-br from-slate-900 to-purple-950/40 space-y-2">
+                    <h3 class="text-xl font-extrabold text-purple-300 flex items-center">
+                        <i class="fa-solid fa-table-cells-large mr-2"></i> Kalkulator Pembagian Metode Horner
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Metode Horner mempermudah pencarian **Hasil Bagi $H(x)$** dan **Sisa $S(x)$** dari pembagian $P(x)$ oleh pembagi linear $(x - k)$.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Input Coefficients -->
+                    <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h4 class="font-bold text-white text-sm">Input Polinomial & Pembagi</h4>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                                <div class="font-bold text-purple-400">Koefisien Polinomial $2x^3 + 5x^2 + 0x + 6$:</div>
+                                <div class="grid grid-cols-4 gap-1.5 text-center">
+                                    <div>
+                                        <label class="text-[9px] text-slate-500 block">x³</label>
+                                        <input type="number" id="horner-c3" value="2" oninput="calculateHorner()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white font-bold text-center">
+                                    </div>
+                                    <div>
+                                        <label class="text-[9px] text-slate-500 block">x²</label>
+                                        <input type="number" id="horner-c2" value="5" oninput="calculateHorner()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white font-bold text-center">
+                                    </div>
+                                    <div>
+                                        <label class="text-[9px] text-slate-500 block">x¹</label>
+                                        <input type="number" id="horner-c1" value="0" oninput="calculateHorner()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white font-bold text-center">
+                                    </div>
+                                    <div>
+                                        <label class="text-[9px] text-slate-500 block">x⁰</label>
+                                        <input type="number" id="horner-c0" value="6" oninput="calculateHorner()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white font-bold text-center">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                                <div class="font-bold text-amber-400">Pembagi $(x - k) \implies (x + 3)$ maka $k = -3$:</div>
+                                <div>
+                                    <label class="text-[10px] text-slate-400 block mb-1">Nilai $k$ (Pembuat Nol Pembagi)</label>
+                                    <input type="number" id="horner-k" value="-3" oninput="calculateHorner()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Synthetic Horner Table Display -->
+                    <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h4 class="font-bold text-white text-sm">Bagan Skema Horner Synthentic Division</h4>
+
+                        <div id="horner-table-container" class="overflow-x-auto custom-scrollbar bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                            <!-- Dynamically generated Horner Table -->
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900 border border-purple-500/30">
+                                <div class="text-[10px] font-bold text-purple-400 uppercase">Hasil Bagi $H(x)$</div>
+                                <div id="horner-res-hx" class="font-mono text-sm font-bold text-white mt-1">2x² - 1x + 3</div>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl bg-slate-900 border border-amber-500/30">
+                                <div class="text-[10px] font-bold text-amber-400 uppercase">Sisa Pembagian $S(x)$</div>
+                                <div id="horner-res-sx" class="font-mono text-sm font-bold text-white mt-1">-3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SUB-TAB 3: TEOREMA SISA & TEOREMA FAKTOR -->
+            <div id="subtab-teorema" class="hidden space-y-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-3">
+                        <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-square-root-variable text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Teorema Sisa</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Jika polinomial $P(x)$ dibagi oleh $(x - k)$, maka sisa pembagiannya adalah nilai fungsi pada $x = k$, yaitu:
+                        </p>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-purple-500/30 text-center font-mono text-purple-300 text-sm">
+                            $$S(x) = P(k)$$
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-3">
+                        <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-puzzle-piece text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Teorema Faktor</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Suatu bentuk linear $(x - k)$ merupakan **faktor** dari polinomial $P(x)$ jika dan hanya jika sisa pembagiannya bernilai nol:
+                        </p>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-amber-500/30 text-center font-mono text-amber-300 text-sm">
+                            $$P(k) = 0 \iff (x - k) \text{ adalah faktor } P(x)$$
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950/90 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-graduation-cap text-cyan-400"></i>
+                <span class="font-semibold text-slate-400">Matematika Tingkat Lanjut Kelas 11</span>
+                <span>• Bilangan Kompleks & Polinomial</span>
+            </div>
+            <div class="text-slate-600">
+                Aplikasi Modul Interaktif Simulator & Rumus
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sound FX using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.04);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08); // E5
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch(e) {}
+        }
+
+        // Navigation View Handler
+        function showView(viewId) {
+            playSound('click');
+            ['home', 'bab1', 'bab2'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const btn = document.getElementById(`nav-btn-${v}`);
+                if (v === viewId) {
+                    el.classList.remove('hidden');
+                    if (btn) {
+                        btn.className = "nav-link px-4 py-2 rounded-xl text-xs font-bold transition-all text-cyan-400 bg-cyan-500/10 border border-cyan-500/20";
+                    }
+                } else {
+                    el.classList.add('hidden');
+                    if (btn) {
+                        btn.className = "nav-link px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60";
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Trigger canvas redraws
+            if (viewId === 'bab1') {
+                setTimeout(() => { updateArgandSim(); calculateComplexOps(); updatePolarSim(); }, 50);
+            } else if (viewId === 'bab2') {
+                setTimeout(() => { updateEndBehaviorSim(); calculateHorner(); }, 50);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // BAB 1 TAB SWITCHER
+        function switchBab1Tab(tab) {
+            playSound('click');
+            ['argand', 'oper', 'polar'].forEach(t => {
+                const sub = document.getElementById(`subtab-${t}`);
+                const btn = document.getElementById(`tab-b1-${t}`);
+                if (t === tab) {
+                    sub.classList.remove('hidden');
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-cyan-500 text-slate-950 shadow-md";
+                } else {
+                    sub.classList.add('hidden');
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
+                }
+            });
+
+            if (tab === 'argand') updateArgandSim();
+            if (tab === 'oper') calculateComplexOps();
+            if (tab === 'polar') updatePolarSim();
+        }
+
+        // 1. Argand Plane Visualizer Logic
+        function updateArgandSim() {
+            const a = parseFloat(document.getElementById('slider-a').value) || 0;
+            const b = parseFloat(document.getElementById('slider-b').value) || 0;
+
+            document.getElementById('argand-val-a').innerText = a;
+            document.getElementById('argand-val-b').innerText = b;
+
+            const conjSign = b >= 0 ? `- ${b}i` : `+ ${Math.abs(b)}i`;
+            document.getElementById('argand-res-conj').innerText = `${a} ${conjSign}`;
+
+            const mod = Math.sqrt(a*a + b*b);
+            document.getElementById('argand-res-mod').innerText = mod.toFixed(2);
+
+            document.getElementById('argand-res-z-zbar').innerText = `${a}² + (${b})² = ${a*a + b*b}`;
+
+            drawArgandCanvas(a, b);
+        }
+
+        function drawArgandCanvas(a, b) {
+            const canvas = document.getElementById('canvas-argand');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width = canvas.parentElement.clientWidth;
+            const h = canvas.height = canvas.parentElement.clientHeight;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const originX = w / 2;
+            const originY = h / 2;
+            const scale = 18;
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for(let x=0; x<w; x+=scale) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for(let y=0; y<h; y+=scale) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+            // Axes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, originY); ctx.lineTo(w, originY);
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, h);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('Re (Real)', w - 50, originY - 8);
+            ctx.fillText('Im (Imajiner)', originX + 8, 15);
+
+            // Vector z
+            const zX = originX + a * scale;
+            const zY = originY - b * scale;
+
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(originX, originY);
+            ctx.lineTo(zX, zY);
+            ctx.stroke();
+
+            // Point z
+            ctx.fillStyle = '#38bdf8';
+            ctx.beginPath(); ctx.arc(zX, zY, 6, 0, Math.PI*2); ctx.fill();
+
+            // Conjugate vector z_bar
+            const conjY = originY - (-b) * scale;
+            ctx.strokeStyle = '#c084fc';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(originX, originY);
+            ctx.lineTo(zX, conjY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#c084fc';
+            ctx.beginPath(); ctx.arc(zX, conjY, 5, 0, Math.PI*2); ctx.fill();
+
+            // Text tags
+            ctx.font = 'bold 11px monospace';
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText(`z(${a}, ${b}i)`, zX + 8, zY - 5);
+
+            ctx.fillStyle = '#c084fc';
+            ctx.fillText(`z̄(${a}, ${-b}i)`, zX + 8, conjY + 12);
+        }
+
+        // 2. Complex Operations Calculator
+        function calculateComplexOps() {
+            const a = parseFloat(document.getElementById('oper-a').value) || 0;
+            const b = parseFloat(document.getElementById('oper-b').value) || 0;
+            const c = parseFloat(document.getElementById('oper-c').value) || 0;
+            const d = parseFloat(document.getElementById('oper-d').value) || 0;
+
+            // Addition: (a+c) + (b+d)i
+            const addRe = a + c;
+            const addIm = b + d;
+            document.getElementById('res-add').innerText = `${addRe} ${addIm >= 0 ? '+' : '-'} ${Math.abs(addIm)}i`;
+            document.getElementById('step-add').innerText = `(${a} + ${c}) + (${b} ${d >= 0 ? '+' : ''}${d})i`;
+
+            // Subtraction: (a-c) + (b-d)i
+            const subRe = a - c;
+            const subIm = b - d;
+            document.getElementById('res-sub').innerText = `${subRe} ${subIm >= 0 ? '+' : '-'} ${Math.abs(subIm)}i`;
+            document.getElementById('step-sub').innerText = `(${a} - ${c}) + (${b} - (${d}))i`;
+
+            // Multiplication: (ac - bd) + (ad + bc)i
+            const mulRe = (a*c) - (b*d);
+            const mulIm = (a*d) + (b*c);
+            document.getElementById('res-mul').innerText = `${mulRe} ${mulIm >= 0 ? '+' : '-'} ${Math.abs(mulIm)}i`;
+            document.getElementById('step-mul').innerText = `((${a})(${c}) - (${b})(${d})) + ((${a})(${d}) + (${b})(${c}))i`;
+
+            // Division: ((ac+bd) + (bc-ad)i) / (c^2 + d^2)
+            const denom = c*c + d*d;
+            if (denom !== 0) {
+                const divRe = ((a*c) + (b*d)) / denom;
+                const divIm = ((b*c) - (a*d)) / denom;
+                document.getElementById('res-div').innerText = `${divRe.toFixed(2)} ${divIm >= 0 ? '+' : '-'} ${Math.abs(divIm).toFixed(2)}i`;
+                document.getElementById('step-div').innerText = `Penyebut c² + d² = ${c}² + (${d})² = ${denom}`;
+            } else {
+                document.getElementById('res-div').innerText = 'Tidak terdefinisi (Penyebut 0)';
+            }
+        }
+
+        // 3. Polar & Quadrant Logic
+        function updatePolarSim() {
+            const x = parseFloat(document.getElementById('polar-x').value) || 0;
+            const y = parseFloat(document.getElementById('polar-y').value) || 0;
+
+            const r = Math.sqrt(x*x + y*y);
+            let rad = Math.atan2(y, x);
+            let deg = rad * (180 / Math.PI);
+            if (deg < 0) deg += 360;
+
+            document.getElementById('polar-res-r').innerText = r.toFixed(2);
+            document.getElementById('polar-res-theta').innerText = `${deg.toFixed(1)}°`;
+
+            let qBadge = "Kuadran I";
+            if (x < 0 && y >= 0) qBadge = "Kuadran II";
+            else if (x < 0 && y < 0) qBadge = "Kuadran III";
+            else if (x >= 0 && y < 0) qBadge = "Kuadran IV";
+
+            document.getElementById('polar-quadrant-badge').innerText = qBadge;
+
+            const formulaBox = document.getElementById('polar-formula-box');
+            formulaBox.innerHTML = `$$z = ${r.toFixed(2)} \\left(\\cos ${deg.toFixed(1)}^\\circ + i \\sin ${deg.toFixed(1)}^\\circ\\right)$$`;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(formulaBox);
+            }
+        }
+
+        // BAB 2 TAB SWITCHER
+        function switchBab2Tab(tab) {
+            playSound('click');
+            ['endbehavior', 'horner', 'teorema'].forEach(t => {
+                const sub = document.getElementById(`subtab-${t}`);
+                const btn = document.getElementById(`tab-b2-${t}`);
+                if (t === tab) {
+                    sub.classList.remove('hidden');
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-purple-600 text-white shadow-md";
+                } else {
+                    sub.classList.add('hidden');
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-slate-700";
+                }
+            });
+
+            if (tab === 'endbehavior') updateEndBehaviorSim();
+            if (tab === 'horner') calculateHorner();
+        }
+
+        // 1. Polynomial End Behavior Logic
+        function updateEndBehaviorSim() {
+            const deg = parseInt(document.getElementById('poly-degree').value);
+            const sign = document.getElementById('poly-sign').value;
+
+            const isEven = deg % 2 === 0;
+            const isPos = sign === 'pos';
+
+            const badge = document.getElementById('poly-badge');
+            const text = document.getElementById('poly-direction-text');
+
+            badge.innerText = `${isEven ? 'Genap' : 'Ganjil'} (n=${deg}), ${isPos ? 'Positif' : 'Negatif'}`;
+
+            if (isEven && isPos) {
+                text.innerText = "Kiri Atas (↖) dan Kanan Atas (↗)";
+            } else if (isEven && !isPos) {
+                text.innerText = "Kiri Bawah (↙) dan Kanan Bawah (↘)";
+            } else if (!isEven && isPos) {
+                text.innerText = "Kiri Bawah (↙) dan Kanan Atas (↗)";
+            } else {
+                text.innerText = "Kiri Atas (↖) dan Kanan Bawah (↘)";
+            }
+
+            drawPolyCanvas(deg, sign);
+        }
+
+        function drawPolyCanvas(deg, sign) {
+            const canvas = document.getElementById('canvas-poly');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width = canvas.parentElement.clientWidth;
+            const h = canvas.height = canvas.parentElement.clientHeight;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const originX = w / 2;
+            const originY = h / 2;
+
+            // Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for(let x=0; x<w; x+=30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for(let y=0; y<h; y+=30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+            // Axes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, originY); ctx.lineTo(w, originY);
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, h);
+            ctx.stroke();
+
+            // Plot curve
+            ctx.strokeStyle = '#c084fc';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            const isEven = deg % 2 === 0;
+            const mult = sign === 'pos' ? 1 : -1;
+
+            let started = false;
+            for(let px = -originX; px <= originX; px += 2) {
+                const x = px / 30; // normalized scale
+                let y = 0;
+
+                if (isEven) {
+                    y = mult * Math.pow(x, 2) * 0.4;
+                } else {
+                    y = mult * Math.pow(x, 3) * 0.15;
+                }
+
+                const canvasX = originX + px;
+                const canvasY = originY - (y * 30);
+
+                if (!started) { ctx.moveTo(canvasX, canvasY); started = true; }
+                else { ctx.lineTo(canvasX, canvasY); }
+            }
+            ctx.stroke();
+        }
+
+        // 2. Synthetic Horner Calculator
+        function calculateHorner() {
+            const c3 = parseFloat(document.getElementById('horner-c3').value) || 0;
+            const c2 = parseFloat(document.getElementById('horner-c2').value) || 0;
+            const c1 = parseFloat(document.getElementById('horner-c1').value) || 0;
+            const c0 = parseFloat(document.getElementById('horner-c0').value) || 0;
+            const k = parseFloat(document.getElementById('horner-k').value) || 0;
+
+            // Step calculations:
+            const r3 = c3;
+            const m2 = r3 * k;
+            const r2 = c2 + m2;
+            const m1 = r2 * k;
+            const r1 = c1 + m1;
+            const m0 = r1 * k;
+            const r0 = c0 + m0; // Remainder
+
+            // Table rendering
+            const container = document.getElementById('horner-table-container');
+            container.innerHTML = `
+                <table class="w-full text-center text-xs font-mono border-collapse">
+                    <tr class="border-b border-slate-800 text-slate-400">
+                        <td class="p-2 border-r border-slate-800 text-amber-400 font-bold">k = ${k}</td>
+                        <td class="p-2">${c3}</td>
+                        <td class="p-2">${c2}</td>
+                        <td class="p-2">${c1}</td>
+                        <td class="p-2">${c0}</td>
+                    </tr>
+                    <tr class="border-b border-slate-800 text-purple-400">
+                        <td class="p-2 border-r border-slate-800 font-bold">+</td>
+                        <td class="p-2 text-slate-600">0</td>
+                        <td class="p-2">${m2}</td>
+                        <td class="p-2">${m1}</td>
+                        <td class="p-2">${m0}</td>
+                    </tr>
+                    <tr class="font-bold text-white bg-purple-950/40">
+                        <td class="p-2 border-r border-slate-800 text-slate-400">Hasil</td>
+                        <td class="p-2 text-cyan-300">${r3}</td>
+                        <td class="p-2 text-cyan-300">${r2}</td>
+                        <td class="p-2 text-cyan-300">${r1}</td>
+                        <td class="p-2 text-amber-300 bg-amber-500/20 border border-amber-500/40 rounded">${r0} (Sisa)</td>
+                    </tr>
+                </table>
+            `;
+
+            // Display polynomial results
+            const hxStr = `${r3}x² ${r2 >= 0 ? '+' : ''}${r2}x ${r1 >= 0 ? '+' : ''}${r1}`;
+            document.getElementById('horner-res-hx').innerText = hxStr;
+            document.getElementById('horner-res-sx').innerText = `S(x) = ${r0}`;
+        }
+
+        // On Page Load
+        window.onload = function() {
+            updateArgandSim();
+            calculateComplexOps();
+            updatePolarSim();
+            updateEndBehaviorSim();
+            calculateHorner();
+
+            // Render Math equations via KaTeX
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        };
+
+        // Window resize handler
+        window.onresize = function() {
+            updateArgandSim();
+            updateEndBehaviorSim();
+        };
+    </script>
+</body>
+</html>
